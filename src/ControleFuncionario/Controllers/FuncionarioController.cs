@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace ControleFuncionario.Controllers
 {
     /// <summary>
-    /// Controller Funcionario
+    /// Controller responsável pelas operações relacionadas aos Funcionários.
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
@@ -22,13 +22,21 @@ namespace ControleFuncionario.Controllers
         private readonly IFuncionarioService _FuncionarioService;
 
         /// <summary>
-        /// Construtor Controller Funcionario
+        /// Construtor do Controller Funcionario.
+        /// Inicializa a instância do serviço de funcionário.
         /// </summary>
+        /// <param name="FuncionarioRepository">Instância do serviço `IFuncionarioService` que manipula os dados dos funcionários.</param>
         public FuncionarioController(IFuncionarioService FuncionarioRepository)
         {
             _FuncionarioService = FuncionarioRepository;
         }
 
+        /// <summary>
+        /// Método para registrar um novo funcionário.
+        /// O método valida as permissões do usuário e do request, e, em seguida, adiciona o funcionário.
+        /// </summary>
+        /// <param name="request">Objeto `FuncionarioDTO` contendo os dados do funcionário a ser registrado.</param>
+        /// <returns>Retorna o ID do funcionário recém-adicionado ou uma mensagem de erro.</returns>
         [HttpPost]
         [Authorize]
         public IResult Registrar([FromBody] FuncionarioDTO request)
@@ -61,7 +69,10 @@ namespace ControleFuncionario.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Método para listar todos os funcionários ativos.
+        /// </summary>
+        /// <returns>Lista de funcionários ativos ou uma mensagem de erro.</returns>
         [HttpGet]
         [Authorize]
         public IResult Listar()
@@ -72,6 +83,11 @@ namespace ControleFuncionario.Controllers
             return Results.Ok(_FuncionarioService.Listar());
         }
 
+        /// <summary>
+        /// Método para obter os detalhes de um funcionário com base no ID.
+        /// </summary>
+        /// <param name="id">ID do funcionário.</param>
+        /// <returns>Detalhes do funcionário ou mensagem de erro caso não seja encontrado.</returns>
         [HttpGet("{id}")]
         [Authorize]
         public IResult Detalhes(int id)
@@ -84,6 +100,12 @@ namespace ControleFuncionario.Controllers
             return Results.NotFound(new { message = "Funcionario não localizado." });
         }
 
+        /// <summary>
+        /// Método para atualizar os dados de um funcionário.
+        /// </summary>
+        /// <param name="id">ID do funcionário a ser atualizado.</param>
+        /// <param name="request">Objeto `FuncionarioDTO` com os novos dados.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpPut("{id}")]
         [Authorize]
         public IResult Atualizar(int id, [FromBody] FuncionarioDTO request)
@@ -110,6 +132,11 @@ namespace ControleFuncionario.Controllers
             }
         }
 
+        /// <summary>
+        /// Método para deletar um funcionário com base no ID.
+        /// </summary>
+        /// <param name="id">ID do funcionário a ser deletado.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
         [HttpDelete("{id}")]
         [Authorize]
         public IResult Deletar(int id)
@@ -135,6 +162,5 @@ namespace ControleFuncionario.Controllers
                 return Results.BadRequest(new { message = "Erro ao deletar funcionário." });
             }
         }
-
     }
 }

@@ -2,11 +2,8 @@ using ControleFuncionario.Application.Repository;
 using ControleFuncionario.Application.Repository.Interfaces;
 using ControleFuncionario.Application.Services;
 using ControleFuncionario.Application.Services.Interfaces;
-using ControleFuncionario.Infrastructure.Sqlite;
 using ControleFuncionario.Mapper;
-using FluentAssertions.Common;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
@@ -50,9 +47,12 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
-// sqlite
-builder.Services.AddSingleton(new DatabaseConfig { Name = builder.Configuration.GetValue<string>("DatabaseName", "Data Source=database.sqlite") });
-builder.Services.AddSingleton<IDatabaseBootstrap, DatabaseBootstrap>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Executa a configuração do banco de dados
+var databaseSetup = new DatabaseSetup(connectionString);
+databaseSetup.Setup();
+
 builder.Services.AddSingleton<IFuncionarioRepository, FuncionarioRepository>();
 builder.Services.AddSingleton<ILoginRepository, LoginRepository>();
 builder.Services.AddSingleton<IFuncionarioService, FuncionarioService>();
@@ -101,9 +101,5 @@ app.UseAuthentication();
 app.UseAuthorization(); 
 app.MapControllers();
 app.UseCors("AllowAllOrigins");
-// sqlite
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-app.Services.GetService<IDatabaseBootstrap>().Setup();
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
 app.Run();

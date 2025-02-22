@@ -1,0 +1,13 @@
+﻿################################################################################
+# Este arquivo .gitignore foi criado automaticamente pelo Microsoft(R) Visual Studio.
+################################################################################
+
+/src/Visual Studio 2022/Visualizers
+/src/Questao5Teste/bin/Debug/net8.0
+/src/Questao5Teste/obj
+/src/Questao5/bin/Debug/net6.0
+/src/Questao5/obj
+/src/Questao2/obj
+/src/Questao1/obj
+/src/.vs
+/.vs

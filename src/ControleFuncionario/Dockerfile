@@ -1,0 +1,27 @@
+# Etapa de base para a aplicação .NET
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
+WORKDIR /app
+EXPOSE 8080
+EXPOSE 8081
+
+# Etapa de construção do projeto .NET
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["ControleFuncionario/ControleFuncionario.csproj", "ControleFuncionario/"]
+RUN dotnet restore "./ControleFuncionario/./ControleFuncionario.csproj"
+COPY . . 
+WORKDIR "/src/ControleFuncionario"
+RUN dotnet build "./ControleFuncionario.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Etapa de publicação do projeto .NET
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./ControleFuncionario.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+# Etapa final da aplicação .NET
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "ControleFuncionario.dll"]

@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ControleFuncionario</name>
+    </assembly>
+    <members>
+        <member name="T:ControleFuncionario.Application.Repository.FuncionarioRepository">
+            <summary>
+            Repositório responsável pelas operações de banco de dados relacionadas a Funcionarios bancários.
+            Utiliza Dapper para mapear os dados entre o banco de dados e os objetos do domínio.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:ControleFuncionario.Application.Repository.FuncionarioRepository.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Inicializa o repositório com a string de conexão obtida da configuração.
+            </summary>
+            <param name="configuration">A configuração usada para recuperar a string de conexão com o banco de dados.</param>
+            <exception cref="T:System.Exception">Lança uma exceção se não for possível obter a string de conexão.</exception>
+            <inheritdoc/>
+        </member>
+        <member name="T:ControleFuncionario.Application.Repository.LoginRepository">
+            <summary>
+            Repositório responsável pelas operações de banco de dados relacionadas a Logins bancários.
+            Utiliza Dapper para mapear os dados entre o banco de dados e os objetos do domínio.
+            </summary>
+            <inheritdoc/>
+        </member>
+        <member name="M:ControleFuncionario.Application.Repository.LoginRepository.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Inicializa o repositório com a string de conexão obtida da configuração.
+            </summary>
+            <param name="configuration">A configuração usada para recuperar a string de conexão com o banco de dados.</param>
+            <exception cref="T:System.Exception">Lança uma exceção se não for possível obter a string de conexão.</exception>
+            <inheritdoc/>
+        </member>
+        <member name="T:ControleFuncionario.Controllers.FuncionarioController">
+            <summary>
+            Controller Funcionario
+            </summary>
+        </member>
+        <member name="M:ControleFuncionario.Controllers.FuncionarioController.#ctor(ControleFuncionario.Application.Services.Interfaces.IFuncionarioService)">
+            <summary>
+            Construtor Controller Funcionario
+            </summary>
+        </member>
+        <member name="T:ControleFuncionario.Model.Permissoes">
+            <summary>
+            Representa os dados do funcionaroio
+            </summary>
+        </member>
+        <member name="T:ControleFuncionario.Model.LoginDTO">
+            <summary>
+            Representa os dados do funcionaroio
+            </summary>
+        </member>
+    </members>
+</doc>

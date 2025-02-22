@@ -33,7 +33,7 @@ Este projeto é uma aplicação backend desenvolvida para gerenciar o cadastro d
 
 ### Requisitos
 - .NET 6 ou superior
-- Banco de dados configurado para o Entity Framework (ex: SQL Server)
+- Banco de dados configurado para o Dapper (ex: SQL Server)
 - Configuração no `appsettings.json` para o JWT (chave secreta e detalhes de emissão)
 
 ### Passos para rodar

@@ -41,10 +41,10 @@ namespace ControleFuncionario.Application.Repository
         {
             using var dbConnection = new SqlConnection(_connectionString);
 
-            var query = @"
+            var query = @" USE Meubanco
                 INSERT INTO Funcionario (nome, sobrenome, email, cargo, telefone, gestor, documento, senha, dt_nascimento, ativo, permissao)
                 VALUES (@nome, @sobrenome, @email, @cargo, @telefone, @gestor, @documento, @senha, @dt_nascimento, @ativo, @Permissao);
-                SELECT last_insert_rowid();";
+                SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
             var id = dbConnection.ExecuteScalar<int>(query, new
             {
@@ -72,7 +72,7 @@ namespace ControleFuncionario.Application.Repository
         public Funcionario Detalhes(int id)
         {
             using var dbConnection = new SqlConnection(_connectionString);
-            var query = "SELECT dt_nascimento as DtNascimento, * FROM Funcionario where id = @Id";
+            var query = "USE Meubanco SELECT dt_nascimento as DtNascimento, * FROM Funcionario where id = @Id";
 
             return dbConnection.QueryFirstOrDefault<Funcionario>(query, new { @Id = id });
         }
@@ -84,7 +84,7 @@ namespace ControleFuncionario.Application.Repository
         public IEnumerable<Funcionario> Listar()
         {
             using var dbConnection = new SqlConnection(_connectionString);
-            var query = "SELECT id as Id, * FROM Funcionario where ativo = 1";
+            var query = "USE Meubanco SELECT id as Id, * FROM Funcionario where ativo = 1";
 
             return dbConnection.Query<Funcionario>(query).ToList();
         }
@@ -98,7 +98,7 @@ namespace ControleFuncionario.Application.Repository
         {
             using var dbConnection = new SqlConnection(_connectionString);
 
-            var query = @"
+            var query = @" USE Meubanco
                 UPDATE Funcionario 
                 SET nome = @Nome,
                     sobrenome = @Sobrenome,
@@ -137,7 +137,7 @@ namespace ControleFuncionario.Application.Repository
         {
             using var dbConnection = new SqlConnection(_connectionString);
 
-            var query = @"UPDATE Funcionario SET ativo = 0 WHERE id = @Id";
+            var query = @"USE Meubanco UPDATE Funcionario SET ativo = 0 WHERE id = @Id";
 
             var linhasAfetadas = dbConnection.Execute(query, new { Id = id });
 

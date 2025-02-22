@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Security.Claims;
 
@@ -38,7 +40,6 @@ namespace ControleFuncionario.Controllers
         /// <param name="request">Objeto `FuncionarioDTO` contendo os dados do funcionário a ser registrado.</param>
         /// <returns>Retorna o ID do funcionário recém-adicionado ou uma mensagem de erro.</returns>
         [HttpPost]
-        [Authorize]
         public IResult Registrar([FromBody] FuncionarioDTO request)
         {
             var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
@@ -49,7 +50,7 @@ namespace ControleFuncionario.Controllers
             if (!request.ValidarPermissaoRequest(request.Permissao, out string requestPermissaoErrorMessage))
                 ModelState.AddModelError("Permissao", requestPermissaoErrorMessage);
 
-            var validationResults = request.ValidarCriacaoFuncionarioComPermissaoSuperior(userRole, request.Permissao);
+            var validationResults = request.ValidacoesFuncionario(userRole, request.Permissao);
             foreach (var validationResult in validationResults)
             {
                 ModelState.AddModelError(validationResult.MemberNames.First(), validationResult.ErrorMessage);

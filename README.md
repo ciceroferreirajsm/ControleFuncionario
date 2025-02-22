@@ -12,7 +12,7 @@ Este projeto é uma aplicação backend desenvolvida para gerenciar o cadastro d
 
 - **ASP.NET Core**: Framework para construção de APIs RESTful.
 - **JWT (JSON Web Tokens)**: Para autenticação e controle de sessões.
-- **Entity Framework**: Para comunicação com banco de dados.
+- **Dapper**: Para comunicação com banco de dados.
 - **Swagger**: Para documentação interativa da API.
 - **AutoMapper**: Para mapeamento de entidades e DTOs (Data Transfer Objects).
 
